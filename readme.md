@@ -1,6 +1,6 @@
 # infrastructure-cicd
 
-This repo is a bolerplate and seed for how to setup infrastructure as a code and a cd/cd pipeline in GCP using Terraform and Cloud build.
+This repo is a boilerplate and seed for how to setup infrastructure as a code and a cd/cd pipeline in GCP using Terraform and Cloud build.
 
 ## Setup
 
@@ -40,6 +40,53 @@ These are the files and properties that need to be updated:
 - **environments/staging/main.tf** - update the project property to match you staging project name
 
 Push you changes.
+
+Login to your [GCP Console](https://console.cloud.google.com) and enable billing.
+Check the official documentation https://cloud.google.com/billing/docs/how-to/modify-project if you have to.
+
+Then go to Cloud Build, enable the api and connect the 2 repositories. You have to do it for both projects: production and staging.
+
+Cloud Build -> Triggers -> Connect Repository
+
+![connect-repo](resources/img/post-43-connect-repo.png)
+
+Do not use the "repositories (2nd gen)" option because is still in preview and I don't know how it works.
+
+If you did this process correctly you should find the 2 repositories in you "Manage repositories" like in the 
+picture bellow
+
+![manage-repo](resources/img/post-43-manage-repo.png)
+
+Next we need to create the build trigger for infra for each of the projects. 
+
+Staging, but first set you repo owner name
+
+```
+REPO_OWNER=[your_github_user]
+```
+
+```bash
+gcloud beta builds triggers create github \
+    --region=global \
+    --repo-name=infrastructure-cicd \
+    --repo-owner=$REPO_OWNER \
+    --branch-pattern='^main$' \
+    --build-config=cloudbuild-staging.yaml \
+    --project $PROJECT_STG
+```
+
+and then production
+
+```bash
+gcloud beta builds triggers create github \
+    --region=global \
+    --repo-name=infrastructure-cicd \
+    --repo-owner=$REPO_OWNER \
+    --branch-pattern='^production$' \
+    --build-config=cloudbuild-production.yaml \
+    --require-approval
+    --project $PROJECT_PROD
+```
 
 ## License
 
