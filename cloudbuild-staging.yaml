@@ -34,7 +34,7 @@ steps:
   - '-e'
   - '-c'
   - | 
-      if [ $BRANCH_NAME == "master" ]; then
+      if [ $BRANCH_NAME == "main" ]; then
         cd environments/staging/
         echo ""
         echo "*************** TERRAFORM APPLY ******************"
