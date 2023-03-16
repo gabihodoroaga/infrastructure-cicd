@@ -21,8 +21,8 @@ gcloud projects create $PROJECT_PROD --name="Production"
 Create the 2 buckets used for maintaining the terraform state
 
 ```bash
-gcloud storage buckets create "gs://$PROJECT_STG-tfstate"
-gcloud storage buckets create "gs://$PROJECT_PROD-tfstate"
+gcloud storage buckets create "gs://$PROJECT_STG-tfs" --project $PROJECT_STG
+gcloud storage buckets create "gs://$PROJECT_PROD-tfs" --project $PROJECT_PROD
 ```
 
 Fork the repositories.
