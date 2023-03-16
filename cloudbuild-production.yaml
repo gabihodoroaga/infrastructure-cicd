@@ -6,7 +6,7 @@ steps:
   - '-e'
   - '-c'
   - |
-      cd environments/staging/
+      cd environments/production/
       echo ""
       echo "*************** TERRAFORM INIT ******************"
       echo "******* At environment: production ********"
@@ -20,7 +20,7 @@ steps:
   - '-e'
   - '-c'
   - | 
-      cd environments/staging/
+      cd environments/production/
       echo ""
       echo "*************** TERRAFOM PLAN ******************"
       echo "******* At environment: production ********"
@@ -35,7 +35,7 @@ steps:
   - '-c'
   - | 
       if [ $BRANCH_NAME == "production" ]; then
-        cd environments/staging/
+        cd environments/production/
         echo ""
         echo "*************** TERRAFORM APPLY ******************"
         echo "******* At environment: production ********"
