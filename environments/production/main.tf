@@ -4,3 +4,7 @@ locals {
   region                = "us-central1"
   branch                = "prod"
 }
+
+provider "google" {
+  project = local.project
+}
