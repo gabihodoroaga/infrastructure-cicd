@@ -38,6 +38,7 @@ resource "google_cloudbuild_trigger" "pubsub_to_bq" {
     _GIN_MODE = var.env == "production" ? "release" : "debug"
     _LOG_LEVEL = var.env == "production" ? "info" : "debug"
     _TRACE_SAMPLE = var.env == "production" ? "0.001" : ""
+    _SERVICE_NAME = "pubsub-to-bq"
     _PROJECT = var.project
     _REGION = var.region
     _PUBSUB_PROJECT = var.project
