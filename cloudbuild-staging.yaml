@@ -1,0 +1,46 @@
+steps:
+- id: 'tf init'
+  name: 'hashicorp/terraform:1.3.4'
+  entrypoint: 'sh'
+  args: 
+  - '-e'
+  - '-c'
+  - |
+      cd environments/staging/
+      echo ""
+      echo "*************** TERRAFORM INIT ******************"
+      echo "******* At environment: staging ********"
+      echo "*************************************************"
+      terraform init || exit 1
+      cd ../../
+- id: 'tf plan'
+  name: 'hashicorp/terraform:1.3.4'
+  entrypoint: 'sh'
+  args:
+  - '-e'
+  - '-c'
+  - | 
+      cd environments/staging/
+      echo ""
+      echo "*************** TERRAFOM PLAN ******************"
+      echo "******* At environment: staging ********"
+      echo "*************************************************"
+      terraform plan || exit 1
+      cd ../../
+- id: 'tf apply'
+  name: 'hashicorp/terraform:1.3.4'
+  entrypoint: 'sh'
+  args:
+  - '-e'
+  - '-c'
+  - | 
+      if [ $BRANCH_NAME == "master" ]; then
+        cd environments/staging/
+        echo ""
+        echo "*************** TERRAFORM APPLY ******************"
+        echo "******* At environment: staging ********"
+        echo "*************************************************"
+        terraform apply -auto-approve || exit 1
+        cd ../../
+      fi
+timeout: 1200s
